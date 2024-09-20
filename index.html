@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS 101</title>
+</head>
+<body>
+    <center><h1>Hello World</h1></center>
+    <button id="btn">Change Text</button>
+    <button id="btn2">Change BG to Red</button>
+    <button id="btn3">Change BG to Green</button>
+
+    <script>
+
+        document.querySelector('#btn').addEventListener('click', ()=>{
+            document.querySelector('h1').innerText = "Hello Class"
+        })
+
+        document.querySelector('#btn2').addEventListener('click', ()=>{
+            document.querySelector('body').style = "background-color: red";
+        })
+
+        document.querySelector('#btn3').addEventListener('click', ()=>{
+            document.querySelector('body').style = "background-color: green; color: white;"
+        })
+    </script>
+</body>
+</html>

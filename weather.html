@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="mx-auto">
+    <div id="locations"></div>
+    <div class="flex justify-center items-center">
+
+        <div class="w-44 mt-4 rounded-xl pl-3 text-black font-bold"
+            style="background-image: url(bg.png); background-repeat: no-repeat; background-position: center;">
+            <p class="my-4 text-4xl" id="loc">Nigeria</p>
+            <!-- <p class="my-4 text-4xl">☀️</p> -->
+            <p class="text-2xl" id="temperature">29°C</p>
+            <p class="mb-10" id="range">Sunny</p>
+        </div>
+    </div>
+
+    <script>
+        let weather = [
+            {
+                name: 'Nigeria',
+                latitude: '9.0820°N',
+                longitude: '8.6753°E',
+                maximumTemperature: 36.0,
+                minimumTemperature: 21.7
+            },
+            {
+                name: 'Ghana',
+                latitude: '7.9465°N',
+                longitude: '1.0232°W',
+                maximumTemperature: 34.7,
+                minimumTemperature: 21.2
+            },
+            {
+                name: 'Togo',
+                latitude: '8.6195°N',
+                longitude: '0.8248°E',
+                maximumTemperature: 33.5,
+                minimumTemperature: 21.6
+            },
+            {
+                name: 'South Africa',
+                latitude: '30.5595°S',
+                longitude: '22.9375°E',
+                maximumTemperature: 32.5,
+                minimumTemperature: 10.5
+            },
+            {
+                name: 'Egypt',
+                latitude: '26.0500°N',
+                longitude: '29.8667°E',
+                maximumTemperature: 35.0,
+                minimumTemperature: 10.0
+            },
+            {
+                name: 'Morocco',
+                latitude: '31.7917°N',
+                longitude: '7.0935°W',
+                maximumTemperature: 34.0,
+                minimumTemperature: 5.0
+            },
+            {
+                name: 'Algeria',
+                latitude: '36.6990°N',
+                longitude: '2.0110°E',
+                maximumTemperature: 33.0,
+                minimumTemperature: 5.0
+            },
+            {
+                name: 'Ethiopia',
+                latitude: '9.1450°N',
+                longitude: '38.7469°E',
+                maximumTemperature: 28.0,
+                minimumTemperature: 10.0
+            },
+            {
+                name: 'Kenya',
+                latitude: '0.0236°S',
+                longitude: '37.9062°E',
+                maximumTemperature: 27.0,
+                minimumTemperature: 12.0
+            },
+            {
+                name: 'Tanzania',
+                latitude: '6.3690°S',
+                longitude: '34.8889°E',
+                maximumTemperature: 28.0,
+                minimumTemperature: 15.0
+            },
+            {
+                name: 'Uganda',
+                latitude: '1.3733°N',
+                longitude: '32.2903°E',
+                maximumTemperature: 26.0,
+                minimumTemperature: 12.0
+            },
+            {
+                name: 'Mauritius',
+                latitude: '20.1667°S',
+                longitude: '57.5000°E',
+                maximumTemperature: 28.0,
+                minimumTemperature: 18.0
+            },
+            {
+                name: 'Botswana',
+                latitude: '22.2193°S',
+                longitude: '24.6939°E',
+                maximumTemperature: 32.0,
+                minimumTemperature: 10.0
+            },
+            {
+                name: 'Zambia',
+                latitude: '14.2633°S',
+                longitude: '27.5333°E',
+                maximumTemperature: 30.0,
+                minimumTemperature: 10.0
+            },
+            {
+                name: 'Zimbabwe',
+                latitude: '19.0153°S',
+                longitude: '29.1554°E',
+                maximumTemperature: 30.0,
+                minimumTemperature: 10.0
+            },
+            {
+                name: 'Rwanda',
+                latitude: '1.9403°S',
+                longitude: '29.8739°E',
+                maximumTemperature: 25.0,
+                minimumTemperature: 12.0
+            },
+            {
+                name: 'Burundi',
+                latitude: '3.3733°S',
+                longitude: '29.9189°E',
+                maximumTemperature: 25.0,
+                minimumTemperature: 12.0
+            },
+            {
+                name: 'Namibia',
+                latitude: '23.5258°S',
+                longitude: '17.1175°E',
+                maximumTemperature: 32.0,
+                minimumTemperature: 5.0
+            },
+            {
+                name: 'Congo',
+                latitude: '4.0435°S',
+                longitude: '15.2551°E',
+                maximumTemperature: 28.0,
+                minimumTemperature: 15.0
+            },
+            {
+                name: 'Angola',
+                latitude: '11.6739°S',
+                longitude: '17.5844°E',
+                maximumTemperature: 30.0,
+                minimumTemperature: 10.0
+            }
+        ];
+        let ranges = [
+            { "name": "freezing", "min": 0, "max": 5 },
+            { "name": "chilly", "min": 5, "max": 14 },
+            { "name": "mild", "min": 15, "max": 18 },
+            { "name": "warm", "min": 19, "max": 20 },
+            { "name": "hot", "min": 21, "max": 23 },
+            { "name": "very_hot", "min": 24, "max": 26 }
+        ];
+
+        let locations = document.querySelector('#locations')
+        let output = '';
+
+        for (let i = 0; i < weather.length; i++) {
+            output += `<button class="bg-blue-200 mr-3" onmouseenter="weat('${weather[i].name}')">${weather[i].name}</button>`
+        }
+
+        locations.insertAdjacentHTML('afterbegin', output)
+
+
+        // Function WEAT
+        function weat(loc) {
+            let result = weather.find((c) => {
+                if (c.name == loc) {
+                    return c
+                }
+            })
+            let avgTemp = (parseFloat(result.maximumTemperature) + parseFloat(result.minimumTemperature)) / 2;
+
+            document.querySelector('#loc').innerText = result.name;
+            document.querySelector('#temperature').innerText = avgTemp;
+            document.querySelector('#range').innerText = intpre(avgTemp);
+        }
+
+        // function intpre(avgTemp) {
+        //     function checkRange(range) {
+        //         if(18 >= range.min || 18 <= range.max){
+        //         return range.name;
+        //     }
+        //     }
+
+        //      console.log(ranges.filter(checkRange(range)))
+        // }
+
+        function intpre(avgTemp) {
+            let res = ranges.filter((r) => {
+                if (avgTemp >= parseFloat(r.min) && avgTemp <= parseFloat(r.max)) {
+                    console.log(avgTemp)
+                    return r
+                }
+            })
+            return res[0].name
+        }
+    </script>
+</body>
+
+</html>

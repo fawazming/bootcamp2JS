@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO DO App</title>
+</head>
+
+<body>
+    <center>
+        <h1>TODO</h1>
+    </center>
+    <form action="" id="todoForm">
+        <input type="search" id="newTodo">
+    </form>
+    <ul id="todoList">
+
+    </ul>
+</body>
+
+<script>
+
+    let todo = [
+        {
+            id: 0,
+            name: "Wash Plate",
+            done: false
+        },
+        {
+            id: 1,
+            name: "Wash dirty Clothes",
+            done: false
+        },
+        {
+            id: 2,
+            name: "Wash Pots",
+            done: false
+        },
+        {
+            id: 3,
+            name: "Wash Laptop",
+            done: false
+        },
+    ];
+
+    let todoForm = document.querySelector('#todoForm');
+    let todoList = document.querySelector('#todoList');
+    let newTodo = document.querySelector('#newTodo');
+
+    window.addEventListener('load', () => {
+        console.log("Windows Loaded")
+        populate();
+    })
+
+    function populate() {
+        todoList.innerHTML = ``;
+        for (let i = 0; i < todo.length; i++) {
+            if (todo[i].done) {
+                //Strike through done todo
+            } else {
+                todoList.innerHTML += `<li> ${todo[i].name} <button onclick="did(${todo[i].id})">DONE</button></li>`
+            }
+
+        }
+
+    }
+
+    function did(id) {
+        console.log(id)
+        todo[id].done = true
+        // console.log(todo)
+        populate()
+    }
+
+</script>
+
+</html>
