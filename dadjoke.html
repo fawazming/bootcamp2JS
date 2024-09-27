@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Dad Joke</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex justify-center">
+    <main class="bg-[#fefff6]" style="width: 425px; height: 98vh; scroll-behavior: smooth;">
+        <h1 class="text-center text-2xl font-bold my-4">Let's Laugh it Out</h1>
+        <h1 class="text-center text-9xl font-bold my-4">🤪</h1>
+
+        <blockquote class="text-2xl text-justify mt-10" id="joke"></blockquote>
+        <div class="flex items-center mt-4 flex-col">
+            <button type="button" class="border-2 px-4 py-2 mt-4 border-black bg-white rounded-xl hover:shadow-lg hover:text-lg" id="get">Get a New Joke</button>
+        </div>
+    </main>
+
+    <script>
+        let joke = document.querySelector('#joke');
+        let getJoke = document.querySelector('#get');
+
+        getJoke.addEventListener('click', ()=>{
+            fetch('https://icanhazdadjoke.com/', {
+                headers: {
+                    Accept: "application/json"
+                }
+            })
+            .then(response=>response.json())
+            .then((data)=>{
+                console.log(data.joke);
+                joke.innerText = data.joke
+            })
+        })
+    </script>
+</body>
+
+</html>
