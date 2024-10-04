@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="">
+    <main class="">
+        <h1 class="text-center text-2xl font-bold my-4">Let's Vote the Best Teacher</h1>
+        <h1 class="text-center text-9xl font-bold my-4">👍</h1>
+
+        <div class="flex justify-center items-center">
+            <div class="flex items-center mt-4 flex-col">
+                <a href="#!" onclick="vote(0)">
+                    <div
+                        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                        <img class="rounded-t-lg" src="img/1.jpg" alt="" />
+
+                        <div class="p-5">
+                            <h5
+                                class="mb-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+                                A
+                            </h5>
+                        </div>
+                </a>
+            </div>
+            <div class="flex items-center mt-4 flex-col">
+                <a href="#!" onclick="vote(1)">
+                    <div
+                        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                        <img class="rounded-t-lg" src="img/2.jpg" alt="" />
+
+                        <div class="p-5">
+                            <h5
+                                class="mb-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+                                X
+                            </h5>
+                        </div>
+                </a>
+            </div>
+            <div class="flex items-center mt-4 flex-col">
+                <a href="#!" onclick="vote(2)">
+                    <div
+                        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                        <img class="rounded-t-lg" src="img/3.jpg" alt="" />
+
+                        <div class="p-5">
+                            <h5
+                                class="mb-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+                                M
+                            </h5>
+                        </div>
+                </a>
+            </div>
+            <div class="flex items-center mt-4 flex-col">
+                <a href="#!"  onclick="vote(3)">
+                    <div
+                        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                        <img class="rounded-t-lg" src="img/4.jpg" alt="" />
+
+                        <div class="p-5">
+                            <h5
+                                class="mb-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+                                P
+                            </h5>
+                        </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let votes = [
+            {
+                "candidate": "A",
+                "counts": 0
+            },
+            {
+                "candidate": "X",
+                "counts": 0
+            },
+            {
+                "candidate": "M",
+                "counts": 0
+            },
+            {
+                "candidate": "P",
+                "counts": 0
+            },
+        ]
+        votes = JSON.parse(window.localStorage.getItem('votes'));
+
+        // window.localStorage.setItem('votes', JSON.stringify(votes));
+
+        function vote(index) {
+            votes[index].counts = parseInt(votes[index].counts) + 1;
+
+            window.localStorage.setItem('votes', JSON.stringify(votes));
+        }
+    </script>
+</body>
+
+</html>

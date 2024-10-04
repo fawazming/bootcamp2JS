@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTMX Demo</title>
+    <script src="htmx.js"></script>
+    <script src="countdown.js"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script async src="https://unpkg.com/typer-dot-js@0.1.0/typer.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+
+
+</head>
+
+<body class="flex justify-center">
+    <main class="bg-[#333] text-white" style="width: 425px; height: 98vh; scroll-behavior: smooth;" id="result">
+        <h1 class="animate__animated animate__infinite animate__slow animate__flip">An animated element</h1>
+
+        <h1>Typer.js <span id="secd"></span> is
+            <span class="typer" id="main" data-words="great,fun,lightweight,easy" data-delay="100"
+                data-deleteDelay="1000"></span>
+            <span class="cursor" data-owner="main"></span>
+        </h1>
+        <p>the typing effect with a pure HTML interface</p>
+        <button hx-get="dadjoke.html" hx-trigger="click delay:3s" hx-target="#result" hx-swap="afterbegin">
+            <img class="htmx-indicator" src="puff.svg">
+            Load Dad Joke</button>
+
+            <h1>Fawaz is
+                <span class="typer" id="faaz" data-words="great,fun,lightweight,easy" data-delay="1" data-colors="white,red,green"
+                    data-deleteDelay="1000"></span>
+                <span class="cursor" data-owner="faaz"></span>
+            </h1>
+    </main>
+</body>
+<script>
+    let cd = new Countdown(6, (s)=>{document.querySelector('#secd').innerText = s} , ()=>{window.open('yesno.html')} )
+</script>
+
+</html>
