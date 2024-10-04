@@ -78,7 +78,10 @@
     </main>
 
     <script>
-        let votes = [
+        
+        let votes = JSON.parse(window.localStorage.getItem('votes'));
+        if(!votes){
+            let votes = [
             {
                 "candidate": "A",
                 "counts": 0
@@ -96,9 +99,10 @@
                 "counts": 0
             },
         ]
-        votes = JSON.parse(window.localStorage.getItem('votes'));
+            window.localStorage.setItem('votes', JSON.stringify(votes));
+            votes = JSON.parse(window.localStorage.getItem('votes'));
+        }
 
-        // window.localStorage.setItem('votes', JSON.stringify(votes));
 
         function vote(index) {
             votes[index].counts = parseInt(votes[index].counts) + 1;
