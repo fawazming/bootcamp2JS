@@ -1,0 +1,259 @@
+<!-- https://api.dictionaryapi.dev/api/v2/entries/en/hello -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary Web App</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        header nav ul li {
+            margin-right: 20px;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2em;
+        }
+
+        .search-section {
+            background-color: #f7f7f7;
+            padding: 1em;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+        }
+
+        #search-input {
+            width: 70%;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+        }
+
+        #search-btn {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        #search-btn:hover {
+            background-color: #444;
+        }
+
+        .result-section {
+            margin-top: 20px;
+            padding: 1em;
+            /* border: 1px solid #ddd; */
+            border-radius: 10px;
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+        }
+
+        #word {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #definition,
+        #example,
+        #synonyms,
+        #antonyms {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+            clear: both;
+        }
+
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loader-container {
+            /* existing styles */
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s;
+        }
+
+        .loader-container.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body style="display: flex; justify-content: center; align-items: center; height: 97vh;">
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+    <div>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="#" class="logo">Dictionary</a></li>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main style="min-height: 60vh;">
+            <section class="search-section">
+                <input type="text" id="search-input" placeholder="Search for a word...">
+                <button id="search-btn">Search</button>
+            </section>
+            <section class="result-section">
+                <h2 id="word"></h2>
+                <p id="definition"></p>
+                <p id="example"></p>
+                <p id="synonyms"></p>
+                <p id="antonyms"></p>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Dictionary Web App</p>
+        </footer>
+    </div>
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+        const wordElement = document.getElementById('word');
+        const definitionElement = document.getElementById('definition');
+        const exampleElement = document.getElementById('example');
+        const synonymsElement = document.getElementById('synonyms');
+        const antonymsElement = document.getElementById('antonyms');
+
+        const loaderContainer = document.querySelector('.loader-container');
+
+        let lstatus = false;
+        status(lstatus);
+
+        searchBtn.addEventListener('click', async () => {
+            const word = searchInput.value.trim();
+            if (word) {
+                try {
+
+                    lstatus = true;
+        status(lstatus);
+
+
+                    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+                    const data = await response.json();
+                    const wordData = data[0];
+
+                    lstatus = false;
+        status(lstatus);
+
+
+                    wordElement.innerText = wordData.word;
+                    definitionElement.innerText = wordData.meanings[0].definitions[0].definition;
+                    exampleElement.innerText = wordData.meanings[0].definitions[0].example;
+                    synonymsElement.innerText = 'Synonyms: ' + wordData.meanings[0].definitions[0].synonyms.join(', ');
+                    antonymsElement.innerText = 'Antonyms: ' + wordData.meanings[0].definitions[0].antonyms.join(', ');
+                } catch (error) {
+                    wordElement.innerText = '';
+                    definitionElement.innerText = 'Word not found!';
+                    exampleElement.innerText = '';
+                    synonymsElement.innerText = '';
+                    antonymsElement.innerText = '';
+                }
+            } else {
+                wordElement.innerText = '';
+                definitionElement.innerText = 'Please enter a word!';
+                exampleElement.innerText = '';
+                synonymsElement.innerText = '';
+                antonymsElement.innerText = '';
+            }
+        });
+
+        // Clear input field on focus
+        searchInput.addEventListener('focus', () => {
+            searchInput.value = '';
+        });
+
+        function status(lstatus) {
+            if (lstatus) {
+                loaderContainer.classList.add('visible');
+            } else {
+                loaderContainer.classList.remove('visible');
+            }
+        }
+        // Hide loader
+
+    </script>
+</body>
+
+</html>
